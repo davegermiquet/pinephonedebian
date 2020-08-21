@@ -13,6 +13,8 @@ unset http_proxy
 
 # Allow non-free components
 echo "deb http://deb.debian.org/debian testing main contrib non-free"  > /media/root/etc/apt/sources.list
+chroot /media/root /usr/bin/apt-get -y update
+chroot /media/root /usr/bin/apt-get -y install ca-certificates
 echo "deb https://repo.mobian-project.org mobian main non-free" >> /media/root/etc/apt/sources.list
 echo APT::Default-Release \"testing\"\; > /media/root/etc/apt/apt.conf.d/99defaultrelease
 
@@ -21,9 +23,8 @@ chroot /media/root apt-key add /tmp/mobian.gpg.key
 
 # Install optional packages
 
-chroot /media/root /usr/bin/apt-get update
-chroot /media/root  /usr/bin/apt-get install apt-utils
-chroot /media/root /usr/bin/apt-get -y install ca-certificates
+chroot /media/root /usr/bin/apt-get -y update
+chroot /media/root  /usr/bin/apt-get install -y apt-utils
 chroot /media/root /usr/bin/apt-get install  -y --no-install-recommends gnupg2
 chroot /media/root /usr/bin/apt-get -y upgrade
 chroot /media/root /usr/bin/apt-get install -y libpam-cap
