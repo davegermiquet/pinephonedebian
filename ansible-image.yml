@@ -80,14 +80,6 @@
     - name: bootstrap arm using qemu
       shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
 
-    - name: Create a symbolic link to arm installation
-      file:
-        src: /media/root/
-        dest: /arm64fs_debian
-        owner: root
-        group: root
-        state: link
-
     - name: Download linux firmware
       git:
         repo: 'https://megous.com/git/linux-firmware'
