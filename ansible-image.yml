@@ -92,7 +92,7 @@
 
     - name: update capabilities for pam, for a permission required.
       blockinfile:
-        path: /arm64fs_debian/etc/pam.d/su
+        path: /media/root/etc/pam.d/su
         insertbefore: ".*auth.*sufficient.*pam_rootok.so.*"
         block: |
           auth        optional    pam_cap.so
