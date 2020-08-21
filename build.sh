@@ -50,7 +50,6 @@ $DEBOS_CMD exec mobianinstaller df -h
 $DEBOS_CMD exec mobianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-image.yml
 
 # copy over artifacts for downloading
-$DEBOS_CMD exec mobianinstaller unlink /arm64fs_debian
 $DEBOS_CMD exec mobianinstaller umount /media/root/boot
 $DEBOS_CMD exec mobianinstaller umount /media/root/proc
 $DEBOS_CMD exec mobianinstaller umount /media/root/dev/pts
