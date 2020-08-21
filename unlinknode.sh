@@ -1,5 +1,5 @@
 #!/bin/bash
-export LOOPDEV=/tmp/recovery-pinephone-loop0
+export LOOPDEV=/build/recovery-pinephone-loop0
 export NODE=101
 
 # drop the first line, as this is our LOOPDEV itself, but we only want the child partitions
