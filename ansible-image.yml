@@ -1,0 +1,215 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+  tasks:
+
+    - name: Create a disk image
+      command: dd if=/dev/zero of=/build/mobian.img bs=1024M count=6 conv=sync
+
+    - name: Create loopback
+      command: mknod -m 0660 "/build/recovery-pinephone-loop0" b 7 101
+
+    - name: Attach loopback
+      command: losetup -P /build/recovery-pinephone-loop0 /build/mobian.img
+
+    - name: Create a new primary partition with a size of 1GiB
+      parted:
+        device: /build/recovery-pinephone-loop0
+        label: msdos
+        number: 1
+        flags: [ boot ]
+        part_type: primary
+        state: present
+        part_end: 1GiB
+
+    - name: Create a new primary partition with a size of 6GiB
+      parted:
+        device: /build/recovery-pinephone-loop0
+        label: msdos
+        number: 2
+        part_type: primary
+        state: present
+        part_start: 1GiB
+        part_end: 4.9GiB
+
+    - pause:
+        seconds: 5
+
+    - name: Make loopback nodes
+      shell: /build/createnode.sh
+
+    - name: Create a ext2 filesystem on loopback part 1 
+      filesystem:
+        fstype: ext2
+        dev: /build/recovery-pinephone-loop0p1
+
+    - name: label e2boot
+      command: e2label /build/recovery-pinephone-loop0p1 BOOT
+
+    - name: Create a f2fs filesystem on loopback part 2
+      filesystem:
+        fstype: f2fs
+        dev: /build/recovery-pinephone-loop0p2
+
+    - name: Creates directory
+      file:
+        path: /media/root/
+        state: directory
+
+    - name: Mount up device by label
+      mount:
+        path: /media/root/
+        src: /build/recovery-pinephone-loop0p2
+        fstype: f2fs
+        state: mounted
+
+    - name: Creates directory
+      file:
+        path: /media/root/boot
+        state: directory
+
+    - name: Mount up device by label
+      mount:
+        path: /media/root/boot
+        src: /build/recovery-pinephone-loop0p1
+        fstype: ext2
+        state: mounted
+
+
+    - name: bootstrap arm using qemu
+      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
+
+    - name: Create a symbolic link to arm installation
+      file:
+        src: /media/root/
+        dest: /arm64fs_debian
+        owner: root
+        group: root
+        state: link
+
+    - name: Download linux firmware
+      git:
+        repo: 'https://megous.com/git/linux-firmware'
+        dest: '/build/firmware'
+        force: yes
+        version: master
+
+    - name: install necessary debian packages for pinephone
+      command: /build/createImageSecond.sh
+
+    - name: update capabilities for pam, for a permission required.
+      blockinfile:
+        path: /arm64fs_debian/etc/pam.d/su
+        insertbefore: ".*auth.*sufficient.*pam_rootok.so.*"
+        block: |
+          auth        optional    pam_cap.so
+
+
+    - name: pine64 crust uboot git clone
+      git:
+        repo: 'https://gitlab.com/pine64-org/crust-meta.git'
+        dest: '/build/crust-meta'
+        force: yes
+        version: master
+
+    - name: Change pinebook to pinephone
+      replace:
+        path: "/build/crust-meta/Makefile"
+        regexp: 'pinebook'
+        replace: 'pinephone'
+
+    - name: get megi kernel
+      get_url:
+        url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
+        dest: /build
+
+    - name: Extract kernel
+      unarchive:
+        src: /build/linux-megi-kernel-5.8.tar.gz
+        dest: /build
+
+    - name:  build default kernel config for pinephone
+      make:
+        chdir: /build/linux-megi-kernel-5.8
+        params:
+          ARCH: arm64
+          CROSS_COMPILE: aarch64-linux-gnu-
+        target: pinephone_defconfig
+
+    - name: patch the config
+      replace:
+        path: /build/linux-megi-kernel-5.8/.config
+        regexp: CONFIG_EXTRA_FIRMWARE_DIR="\/workspace\/megous\.com\/orangepi-pc\/firmware"
+        replace: CONFIG_EXTRA_FIRMWARE_DIR="/build/firmware"
+
+    - name: patch the config
+      replace:
+        path:  /build/linux-megi-kernel-5.8/.config
+        regexp: CONFIG_EXTRA_FIRMWARE_DIR="\/lib\/firmware"
+        replace: CONFIG_EXTRA_FIRMWARE_DIR="/build/firmware"
+
+    - name: patch the config
+      replace:
+        path: /build/linux-megi-kernel-5.8/.config
+        regexp: CONFIG_EXTRA_FIRMWARE=".*"
+        replace: CONFIG_EXTRA_FIRMWARE="anx7688-fw.bin brcm/brcmfmac43362-sdio.bin brcm/brcmfmac43456-sdio.bin hm5065-af.bin rtl_bt/rtl8723bs_config-pine64.bin  rtl_bt/rtl8723cs_xx_config-pinebook.bin  rtl_bt/rtl8723cs_xx_config-pinephone.bin  rtl_bt/rtl8723cs_xx_fw.bin hm5065-init.bin  regulatory.db  rtlwifi/rtl8188eufw.bin"
+
+    - name: Build the kernel
+      make:
+        chdir: /build/linux-megi-kernel-5.8
+        params:
+          ARCH: arm64
+          CROSS_COMPILE: aarch64-linux-gnu-
+        target: all
+
+    - name: Build the uboot and crust
+      make:
+        chdir: /build/crust-meta
+
+    - name: install the modules
+      make:
+        chdir: /build/linux-megi-kernel-5.8
+        params:
+          ARCH: arm64
+          CROSS_COMPILE: aarch64-linux-gnu-
+          INSTALL_MOD_PATH: /media/root/
+        target:  modules_install
+
+    - name: install the dtbs
+      make:
+        chdir: /build/linux-megi-kernel-5.8
+        params:
+          ARCH: arm64
+          INSTALL_DTBS_PATH: /media/root/boot
+          CROSS_COMPILE: aarch64-linux-gnu-
+        target:  dtbs_install
+
+    - name: Make System Map
+      shell: /sbin/depmod -b "/media/root/" -F System.map $(make kernelversion|tr '\n' ' ')
+      args:
+        chdir: /build/linux-megi-kernel-5.8
+
+    - name: Copy file with owner and permissions
+      copy:
+        src: /build/linux-megi-kernel-5.8/System.map
+        dest: /media/root/boot/System.map
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Flash uboot to Image that will be burned this is to overwrite mobians uboot origin
+      command: dd if=/build/crust-meta/build/pinephone/u-boot-sunxi-with-spl.bin of=/build/recovery-pinephone-loop0 seek=8 bs=1024 conv=sync
+
+    - name: Copy file with owner and permissions
+      copy:
+        src: /build/linux-megi-kernel-5.8/arch/arm64/boot/Image
+        dest: /media/root/boot/Image
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: create ram disk and boot script
+      command: /build/createBootImage.sh
+      args:
+        chdir: /build/linux-megi-kernel-5.8
