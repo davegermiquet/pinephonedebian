@@ -109,8 +109,8 @@ chroot /media/root /usr/bin/apt-get install -y --no-install-recommends alsa-ucm-
     gconf-gsettings-backend gir1.2-handy-0.0 python3-gi  gconf-gsettings-backend phosh eog \
       epiphany-browser   firefox-esr  gnome-sound-recorder  gnome-todo  pinhole \
         telegram-desktop   webext-ublock-origin  dracut    plymouth  plymouth-themes \
-      sudo vim  dracut-core modemmanager  libwayland-cursor++  xcursor-themes libwayland-cursor \
-      libwayland-client0 dbus libpam-systemd
+      sudo vim  dracut-core modemmanager  libwayland-cursor++0 xcursor-themes \
+      libwayland-client0 dbus libpam-systemd libwayland-cursor0
 
 
 
