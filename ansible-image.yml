@@ -4,78 +4,6 @@
     ansible_connection: local
   tasks:
 
-    - name: Create a disk image
-      command: dd if=/dev/zero of=/build/mobian.img bs=1024M count=6 conv=sync
-
-    - name: Create loopback
-      command: mknod -m 0660 "/build/recovery-pinephone-loop0" b 7 101
-
-    - name: Attach loopback
-      command: losetup -P /build/recovery-pinephone-loop0 /build/mobian.img
-
-    - name: Create a new primary partition with a size of 1GiB
-      parted:
-        device: /build/recovery-pinephone-loop0
-        label: msdos
-        number: 1
-        flags: [ boot ]
-        part_type: primary
-        state: present
-        part_end: 1GiB
-
-    - name: Create a new primary partition with a size of 6GiB
-      parted:
-        device: /build/recovery-pinephone-loop0
-        label: msdos
-        number: 2
-        part_type: primary
-        state: present
-        part_start: 1GiB
-        part_end: 4.9GiB
-
-    - pause:
-        seconds: 5
-
-    - name: Make loopback nodes
-      shell: /build/createnode.sh
-
-    - name: Create a ext2 filesystem on loopback part 1 
-      filesystem:
-        fstype: ext2
-        dev: /build/recovery-pinephone-loop0p1
-
-    - name: label e2boot
-      command: e2label /build/recovery-pinephone-loop0p1 BOOT
-
-    - name: Create a f2fs filesystem on loopback part 2
-      filesystem:
-        fstype: f2fs
-        dev: /build/recovery-pinephone-loop0p2
-
-    - name: Creates directory
-      file:
-        path: /media/root/
-        state: directory
-
-    - name: Mount up device by label
-      mount:
-        path: /media/root/
-        src: /build/recovery-pinephone-loop0p2
-        fstype: f2fs
-        state: mounted
-
-    - name: Creates directory
-      file:
-        path: /media/root/boot
-        state: directory
-
-    - name: Mount up device by label
-      mount:
-        path: /media/root/boot
-        src: /build/recovery-pinephone-loop0p1
-        fstype: ext2
-        state: mounted
-
     - name: Download KDE3 BUILD PLASMA
       git:
         repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
@@ -83,29 +11,12 @@
         force: yes
         version: master
 
-    - name: BUILD KDE
-      command: /build/kdebuildscript.sh
-
-    - name: bootstrap arm using qemu
-      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
-
-    - name: Download linux firmware
+    - name: Download QT5
       git:
-        repo: 'https://megous.com/git/linux-firmware'
-        dest: '/build/firmware'
+        repo: 'git://code.qt.io/qt/qt5.git'
+        dest: '/build/qt5'
         force: yes
-        version: master
-
-    - name: install necessary debian packages for pinephone
-      command: /build/createImageSecond.sh
-
-    - name: update capabilities for pam, for a permission required.
-      blockinfile:
-        path: /media/root/etc/pam.d/su
-        insertbefore: ".*auth.*sufficient.*pam_rootok.so.*"
-        block: |
-          auth        optional    pam_cap.so
-
+        version: 5.12.9
 
     - name: pine64 crust uboot git clone
       git:
@@ -124,7 +35,7 @@
       get_url:
         url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
         dest: /build
-        
+
     - name: Extract kernel
       unarchive:
         src: /build/linux-megi-kernel-5.8.tar.gz
@@ -167,6 +78,101 @@
     - name: Build the uboot and crust
       make:
         chdir: /build/crust-meta
+
+    - name: BUILD KDE
+      command: /build/kdebuildscript.sh
+
+    - name: bootstrap arm using qemu
+      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
+
+    - name: Download linux firmware
+      git:
+        repo: 'https://megous.com/git/linux-firmware'
+        dest: '/build/firmware'
+        force: yes
+        version: master
+
+    - name: Create a disk image
+      command: dd if=/dev/zero of=/build/mobian.img bs=1024M count=6 conv=sync
+
+    - name: Create loopback
+      command: mknod -m 0660 "/build/recovery-pinephone-loop0" b 7 101
+
+    - name: Attach loopback
+      command: losetup -P /build/recovery-pinephone-loop0 /build/mobian.img
+
+    - name: Create a new primary partition with a size of 1GiB
+      parted:
+        device: /build/recovery-pinephone-loop0
+        label: msdos
+        number: 1
+        flags: [ boot ]
+        part_type: primary
+        state: present
+        part_end: 1GiB
+
+    - name: Create a new primary partition with a size of 6GiB
+      parted:
+        device: /build/recovery-pinephone-loop0
+        label: msdos
+        number: 2
+        part_type: primary
+        state: present
+        part_start: 1GiB
+        part_end: 4.9GiB
+
+    - pause:
+        seconds: 5
+
+    - name: Make loopback nodes
+      shell: /build/createnode.sh
+
+    - name: Create a ext2 filesystem on loopback part 1
+      filesystem:
+        fstype: ext2
+        dev: /build/recovery-pinephone-loop0p1
+
+    - name: label e2boot
+      command: e2label /build/recovery-pinephone-loop0p1 BOOT
+
+    - name: Create a f2fs filesystem on loopback part 2
+      filesystem:
+        fstype: f2fs
+        dev: /build/recovery-pinephone-loop0p2
+
+    - name: Creates directory
+      file:
+        path: /media/root/
+        state: directory
+
+    - name: Mount up device by label
+      mount:
+        path: /media/root/
+        src: /build/recovery-pinephone-loop0p2
+        fstype: f2fs
+        state: mounted
+
+    - name: Creates directory
+      file:
+        path: /media/root/boot
+        state: directory
+
+    - name: Mount up device by label
+      mount:
+        path: /media/root/boot
+        src: /build/recovery-pinephone-loop0p1
+        fstype: ext2
+        state: mounted
+
+    - name: install necessary debian packages for pinephone
+      command: /build/createImageSecond.sh
+
+    - name: update capabilities for pam, for a permission required.
+      blockinfile:
+        path: /media/root/etc/pam.d/su
+        insertbefore: ".*auth.*sufficient.*pam_rootok.so.*"
+        block: |
+          auth        optional    pam_cap.so
 
     - name: install the modules
       make:
