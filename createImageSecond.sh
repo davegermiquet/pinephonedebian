@@ -113,11 +113,6 @@ chroot /media/root /usr/bin/apt-get install -y --no-install-recommends alsa-ucm-
       libwayland-client0 dbus libpam-systemd libwayland-cursor0  libpam-modules libpam-systemd libselinux1 libsystemd0 \
       gdm3
 
-cd /build
-tar xvf macOSBigSur.tar
-mv /build/macOSBigSur /media/root/usr/share/icons
-chroot /media/root /usr/bin/gsettings set org.gnome.desktop.interface cursor-theme 'macOSBigSur'
-
 BOOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p1 | tr '\n' ' ')
 ROOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p2 | tr '\n' ' ')
 
@@ -135,7 +130,8 @@ chroot /media/root local-gen
 chroot /media/root /usr/bin/plymouth-set-default-theme solar
 
 # Load phosh on startup if package is installed
-chroot /media/root /usr/bin/systemctl enable phosh.service
+chroot /media/root /usr/bin/systemctl disable phosh.service
+chroot /media/root /usr/bin/systemctl enable gdm3.service
 
 rm -rf  /media/root/lib/firmware
 rsync -avh /build/firmware /media/root/lib

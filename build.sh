@@ -32,7 +32,6 @@ $DEBOS_CMD exec mobianinstaller apt-get -y install libc6:arm64
 # copy over needed files
 
 $DEBOS_CMD exec mobianinstaller mkdir /build
-$DEBOS_CMD cp macOSBigSur.tar mobianinstaller:/build
 $DEBOS_CMD cp build.sh mobianinstaller:/build
 $DEBOS_CMD cp createBootImage.sh mobianinstaller:/build
 $DEBOS_CMD cp init.sh mobianinstaller:/build
