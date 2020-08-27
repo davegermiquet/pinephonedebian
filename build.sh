@@ -26,18 +26,20 @@ crossbuild-essential-arm64 parted flex bison python3-distutils \
 bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
  qemu-system-aarch64 binfmt-support qemu qemu-user-static  python3-pip \
  cpio rsync dpkg-dev fakeroot e2fsprogs mount eject kmod \
- dracut dpkg-cross systemd-container
-$DEBOS_CMD exec mobianinstaller apt-get install libc6:arm64
+ dracut dpkg-cross systemd-container snapd  git bzr cmake dialog
+$DEBOS_CMD exec mobianinstaller apt-get -y install libc6:arm64
 
 # copy over needed files
 
 $DEBOS_CMD exec mobianinstaller mkdir /build
+$DEBOS_CMD cp macOSBigSur.tar mobianinstaller:/build
 $DEBOS_CMD cp build.sh mobianinstaller:/build
 $DEBOS_CMD cp createBootImage.sh mobianinstaller:/build
 $DEBOS_CMD cp init.sh mobianinstaller:/build
 $DEBOS_CMD cp unlinknode.sh mobianinstaller:/build
 $DEBOS_CMD cp createImageSecond.sh mobianinstaller:/build
 $DEBOS_CMD cp createnode.sh mobianinstaller:/build
+$DEBOS_CMD cp kdebuildscript.sh mobianinstaller:/build
 $DEBOS_CMD cp backup.sh mobianinstaller:/build
 $DEBOS_CMD cp boot.cmd mobianinstaller:/build
 $DEBOS_CMD cp ansible-image.yml mobianinstaller:/build

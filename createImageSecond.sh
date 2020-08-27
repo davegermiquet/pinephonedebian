@@ -110,10 +110,13 @@ chroot /media/root /usr/bin/apt-get install -y --no-install-recommends alsa-ucm-
       epiphany-browser   firefox-esr  gnome-sound-recorder  gnome-todo  pinhole \
         telegram-desktop   webext-ublock-origin  dracut    plymouth  plymouth-themes \
       sudo vim  dracut-core modemmanager  libwayland-cursor++0 xcursor-themes \
-      libwayland-client0 dbus libpam-systemd libwayland-cursor0
+      libwayland-client0 dbus libpam-systemd libwayland-cursor0  libpam-modules libpam-systemd libselinux1 libsystemd0 \
+      gdm3
 
-
-
+cd /build
+tar xvf macOSBigSur.tar
+mv /build/macOSBigSur /media/root/usr/share/icons
+chroot /media/root /usr/bin/gsettings set org.gnome.desktop.interface cursor-theme 'macOSBigSur'
 
 BOOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p1 | tr '\n' ' ')
 ROOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p2 | tr '\n' ' ')

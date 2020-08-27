@@ -76,6 +76,15 @@
         fstype: ext2
         state: mounted
 
+    - name: Download KDE3 BUILD PLASMA
+      git:
+        repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
+        dest: '/build/kdesrc-build'
+        force: yes
+        version: master
+
+    - name: BUILD KDE
+      command: /build/kdebuildscript.sh
 
     - name: bootstrap arm using qemu
       shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
@@ -115,7 +124,7 @@
       get_url:
         url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
         dest: /build
-
+        
     - name: Extract kernel
       unarchive:
         src: /build/linux-megi-kernel-5.8.tar.gz
