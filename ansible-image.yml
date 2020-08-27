@@ -25,6 +25,14 @@
         force: yes
         version: master
 
+    - name: Download linux firmware
+      git:
+        repo: 'https://megous.com/git/linux-firmware'
+        dest: '/build/firmware'
+        force: yes
+        version: master
+
+
     - name: Change pinebook to pinephone
       replace:
         path: "/build/crust-meta/Makefile"
@@ -35,6 +43,9 @@
       get_url:
         url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
         dest: /build
+
+    - name: BUILD KDE
+      command: /build/kdebuildscript.sh
 
     - name: Extract kernel
       unarchive:
@@ -79,18 +90,8 @@
       make:
         chdir: /build/crust-meta
 
-    - name: BUILD KDE
-      command: /build/kdebuildscript.sh
-
     - name: bootstrap arm using qemu
       shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
-
-    - name: Download linux firmware
-      git:
-        repo: 'https://megous.com/git/linux-firmware'
-        dest: '/build/firmware'
-        force: yes
-        version: master
 
     - name: Create a disk image
       command: dd if=/dev/zero of=/build/mobian.img bs=1024M count=6 conv=sync
