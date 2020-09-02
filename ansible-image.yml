@@ -2,21 +2,47 @@
 - hosts: localhost
   vars:
     ansible_connection: local
+
   tasks:
+
+    - name: Creates directory for plasmag
+      file:
+        path: /media/fakeinstallroot/
+        state: directory
+
+    - name: bootstrap arm using qemu
+      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase unstable /media/fakeinstallroot http://deb.debian.org/debian/
+      args:
+        creates: /media/fakeinstallroot/usr/bin/
+
+    - name: Creates directory
+      file:
+        path: /media/fakeinstallroot/build/
+        state: directory
+
+    - name: Download KDE3 BUILD PLASMA
+      git:
+        repo: 'https://github.com/sddm/sddm.git'
+        dest: '/media/fakeinstallroot/build/sddm'
+        force: yes
+        version: develop
+
 
     - name: Download KDE3 BUILD PLASMA
       git:
         repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
-        dest: '/build/kdesrc-build'
+        dest: '/media/fakeinstallroot/build/kdesrc-build'
         force: yes
         version: master
 
-    - name: Download QT5
-      git:
-        repo: 'git://code.qt.io/qt/qt5.git'
-        dest: '/build/qt5'
-        force: yes
-        version: 5.12.9
+    - name: Prepare SDDM and Plasma BUILD
+      command: /build/scripts/createKdePlasmaDependBuild.sh
+
+    - name: BUILD SDDM
+      command: /build/scripts/compileSddm.sh
+
+    - name: BUILD KDE
+      command: /build/scripts/kdebuildscript.sh
 
     - name: pine64 crust uboot git clone
       git:
@@ -43,9 +69,6 @@
       get_url:
         url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
         dest: /build
-
-    - name: BUILD KDE
-      command: /build/kdebuildscript.sh
 
     - name: Extract kernel
       unarchive:
@@ -90,17 +113,14 @@
       make:
         chdir: /build/crust-meta
 
-    - name: bootstrap arm using qemu
-      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase testing /media/root  http://deb.debian.org/debian/
-
     - name: Create a disk image
-      command: dd if=/dev/zero of=/build/mobian.img bs=1024M count=6 conv=sync
+      command: dd if=/dev/zero of=/build/scripts/mobian.img bs=1024M count=13 conv=sync
 
     - name: Create loopback
       command: mknod -m 0660 "/build/recovery-pinephone-loop0" b 7 101
 
     - name: Attach loopback
-      command: losetup -P /build/recovery-pinephone-loop0 /build/mobian.img
+      command: losetup -P /build/recovery-pinephone-loop0 /build/scripts/mobian.img
 
     - name: Create a new primary partition with a size of 1GiB
       parted:
@@ -120,13 +140,13 @@
         part_type: primary
         state: present
         part_start: 1GiB
-        part_end: 4.9GiB
+        part_end: 12.9GiB
 
     - pause:
         seconds: 5
 
     - name: Make loopback nodes
-      shell: /build/createnode.sh
+      shell: /build/scripts/createnode.sh
 
     - name: Create a ext2 filesystem on loopback part 1
       filesystem:
@@ -138,8 +158,8 @@
 
     - name: Create a f2fs filesystem on loopback part 2
       filesystem:
-        fstype: f2fs
-        dev: /build/recovery-pinephone-loop0p2
+       fstype: f2fs
+       dev: /build/recovery-pinephone-loop0p2
 
     - name: Creates directory
       file:
@@ -165,15 +185,19 @@
         fstype: ext2
         state: mounted
 
-    - name: install necessary debian packages for pinephone
-      command: /build/createImageSecond.sh
 
-    - name: update capabilities for pam, for a permission required.
-      blockinfile:
-        path: /media/root/etc/pam.d/su
-        insertbefore: ".*auth.*sufficient.*pam_rootok.so.*"
-        block: |
-          auth        optional    pam_cap.so
+    - name: bootstrap arm using qemu
+      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase unstable /media/root  http://deb.debian.org/debian/
+      args:
+        creates: /media/root/usr/bin/
+
+    - name: install necessary debian packages for pinephone
+      command: /build/scripts/createImageSecond.sh
+
+    - name: Synchronization /usr for KDE install to /debian install
+      synchronize:
+        src: /media/fakeinstallroot/usr/
+        dest: /media/root/usr
 
     - name: install the modules
       make:
@@ -218,6 +242,6 @@
         mode: '0644'
 
     - name: create ram disk and boot script
-      command: /build/createBootImage.sh
+      command: /build/scripts/createBootImage.sh
       args:
         chdir: /build/linux-megi-kernel-5.8
