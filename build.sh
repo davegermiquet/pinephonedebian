@@ -1,67 +1,76 @@
 #!/bin/sh
-
+export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 export PATH=/sbin:/usr/sbin:$PATH
-IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
-DEBOS_CMD=docker 
-ARGS="run -d --tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup --privileged=true --name mobianinstaller -dit amd64/debian /bin/bash"
+IMG_FILE="debian-$device-`date +%Y%m%d`.img"
+DEBOS_CMD=docker
+ARGS="run -d --tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup   --network=debiananddistcc  --privileged=true --name debianinstaller -dit amd64/debian /bin/bash"
 
+cd configFiles
+$DEBOS_CMD network create \
+  --driver=bridge \
+  --subnet=172.28.0.0/16 \
+  --ip-range=172.28.0.0/16 \
+  --gateway=172.28.5.254 \
+  debiananddistcc
+$DEBOS_CMD rm distcc
+$DEBOS_CMD rmi distcc
+$DEBOS_CMD build -t distcc .
+cd ..
+$DEBOS_CMD run -d --network=debiananddistcc -p3636:3636 -p3632:3632 -p3633:3633 -eOPTIONS="--allow 0.0.0.0/0" --name distcc -dit distcc /bin/bash
 
 # pull the buster image
 
 
 $DEBOS_CMD pull amd64/debian
 
-# create new docker of mobian installer or start it if existing
+# create new docker of debian installer or start it if existing
 
+# need better check laterg
+sleep 30
 
-$DEBOS_CMD $ARGS || docker start mobianinstaller
+$DEBOS_CMD $ARGS || docker start debianinstaller
 
 
 # install necessary dependencies for compilation
-$DEBOS_CMD exec mobianinstaller /usr/bin/apt-get -y update
-$DEBOS_CMD exec mobianinstaller  dpkg --add-architecture arm64
-$DEBOS_CMD exec mobianinstaller /usr/bin/apt-get -y --no-install-recommends install ansible f2fs-tools debootstrap git \
-crossbuild-essential-arm64 parted flex bison python3-distutils \
- swig python3-dev u-boot-tools build-essential device-tree-compiler \
+$DEBOS_CMD exec debianinstaller /usr/bin/apt-get -y update
+$DEBOS_CMD exec debianinstaller  dpkg --add-architecture arm64
+$DEBOS_CMD exec debianinstaller /usr/bin/apt-get -y --no-install-recommends install ansible f2fs-tools debootstrap git \
+ parted flex bison python3-distutils  crossbuild-essential-arm64 \
+ swig python3-dev u-boot-tools device-tree-compiler \
 bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
  qemu-system-aarch64 binfmt-support qemu qemu-user-static  python3-pip \
  cpio rsync dpkg-dev fakeroot e2fsprogs mount eject kmod \
- dracut dpkg-cross systemd-container snapd  git bzr cmake dialog
-$DEBOS_CMD exec mobianinstaller apt-get -y install libc6:arm64
+ dracut dpkg-cross systemd-container snapd  git bzr dialog build-essential
+$DEBOS_CMD exec debianinstaller apt-get -y install libc6:arm64
 
 # copy over needed files
 
-$DEBOS_CMD exec mobianinstaller mkdir /build
-$DEBOS_CMD cp build.sh mobianinstaller:/build
-$DEBOS_CMD cp createBootImage.sh mobianinstaller:/build
-$DEBOS_CMD cp init.sh mobianinstaller:/build
-$DEBOS_CMD cp unlinknode.sh mobianinstaller:/build
-$DEBOS_CMD cp createImageSecond.sh mobianinstaller:/build
-$DEBOS_CMD cp createnode.sh mobianinstaller:/build
-$DEBOS_CMD cp kdebuildscript.sh mobianinstaller:/build
-$DEBOS_CMD cp backup.sh mobianinstaller:/build
-$DEBOS_CMD cp boot.cmd mobianinstaller:/build
-$DEBOS_CMD cp ansible-image.yml mobianinstaller:/build
-$DEBOS_CMD exec mobianinstaller wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6_2.31-3_arm64.deb
+$DEBOS_CMD exec debianinstaller mkdir /build
+$DEBOS_CMD cp scripts/ debianinstaller:/build/
+$DEBOS_CMD cp configFiles/ debianinstaller:/build/
+$DEBOS_CMD cp ansible-image.yml debianinstaller:/build/
+$DEBOS_CMD exec debianinstaller wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6_2.31-3_arm64.deb
 
 # start running docker commands
-$DEBOS_CMD exec mobianinstaller df -h
+$DEBOS_CMD exec debianinstaller df -h
 
 # run playbook
-$DEBOS_CMD exec mobianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-image.yml
+$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-image.yml
 
 # copy over artifacts for downloading
-$DEBOS_CMD exec mobianinstaller umount /media/root/boot
-$DEBOS_CMD exec mobianinstaller umount /media/root/proc
-$DEBOS_CMD exec mobianinstaller umount /media/root/dev/pts
-$DEBOS_CMD exec mobianinstaller umount /media/root/
-$DEBOS_CMD exec mobianinstaller /build/unlinknode.sh
+$DEBOS_CMD exec debianinstaller umount /media/root/boot
+$DEBOS_CMD exec debianinstaller umount /media/root/proc
+$DEBOS_CMD exec debianinstaller umount /media/root/dev/pts
+$DEBOS_CMD exec debianinstaller umount /media/root/
+$DEBOS_CMD exec debianinstaller /build/scripts/unlinknode.sh
 
-$DEBOS_CMD exec mobianinstaller losetup -D
-$DEBOS_CMD exec mobianinstaller unlink /build/recovery-pinephone-loop0
-$DEBOS_CMD cp mobianinstaller:/build/mobian.img mobian.img
+$DEBOS_CMD exec debianinstaller losetup -D
+  $DEBOS_CMD exec debianinstaller unlink /build/recovery-pinephone-loop0
+$DEBOS_CMD cp debianinstaller:/build/scripts/debian.img debian.img
 
 # cleanup all the old unnecessary for next build
 
-$DEBOS_CMD exec mobianinstaller rm /build/mobian.img
-$DEBOS_CMD stop mobianinstaller
+$DEBOS_CMD exec debianinstaller rm /build/scripts/debian.img
+$DEBOS_CMD stop debianinstaller
+$DEBOS_CMD stop distcc
+$DEBOS_CMD rm distcc
