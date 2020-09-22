@@ -29,13 +29,8 @@ function setup_distcc() {
 
 
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extra-cmake-modules;mkdir build && cd build;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr .. && make &&  make install"
-
-if [ ! -d "/media/fakeinstallroot/root/kde/" ] ; then
-  chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build --initial-setup"
-  /bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
-  rm /media/fakeinstallroot/root/.kdesrc-buildrc
-  cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
-  chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build plasma-workspace plasma-framework plasma-nm plasma-pa plasma-thunderbolt plasma-vault plasma-disks plasma-workspace-wallpapers kdeplasma-addons krunner milou kwin kscreen sddm-kcm breeze discover print-manager plasma-sdk kaccounts-integration kaccounts-providers kdeconnect-kde plasma-browser-integration xdg-desktop-portal-kde khotkeys plasma-nano plasma-phone-components plasma-settings plasma-camera marble koko okular plasma-angelfish peruse calindori index-fm maui-pix qrca keysmith plasma-dialer discover spacebar --include-dependencies && distcc-pump --startup"
-else
-  chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build plasma-workspace plasma-framework plasma-nm plasma-pa plasma-thunderbolt plasma-vault plasma-disks plasma-workspace-wallpapers kdeplasma-addons krunner milou kwin kscreen sddm-kcm breeze discover print-manager plasma-sdk kaccounts-integration kaccounts-providers kdeconnect-kde plasma-browser-integration xdg-desktop-portal-kde khotkeys plasma-nano plasma-phone-components plasma-settings plasma-camera marble koko okular plasma-angelfish peruse calindori index-fm maui-pix qrca keysmith plasma-dialer discover spacebar --no-src && distcc-pump --startup"
-fi
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build --initial-setup"
+/bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
+rm /media/fakeinstallroot/root/.kdesrc-buildrc
+cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build plasma-workspace plasma-framework plasma-nm plasma-pa plasma-thunderbolt plasma-vault plasma-disks plasma-workspace-wallpapers kdeplasma-addons krunner milou kwin kscreen sddm-kcm breeze discover print-manager plasma-sdk kaccounts-integration kaccounts-providers kdeconnect-kde plasma-browser-integration xdg-desktop-portal-kde khotkeys plasma-nano plasma-phone-components plasma-settings plasma-camera marble koko okular plasma-angelfish peruse calindori index-fm maui-pix qrca keysmith plasma-dialer discover spacebar --include-dependencies"
