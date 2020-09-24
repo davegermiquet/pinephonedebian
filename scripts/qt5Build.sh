@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "
 function setup_distcc() {
   echo distcc > /etc/distcc/hosts
