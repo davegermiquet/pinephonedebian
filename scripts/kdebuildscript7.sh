@@ -27,10 +27,4 @@ function setup_distcc() {
   fi
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
-
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extra-cmake-modules;mkdir build && cd build;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr .. && make &&  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build --initial-setup"
-/bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
-rm /media/fakeinstallroot/root/.kdesrc-buildrc
-cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build calindori index-fm maui-pix qrca keysmith plasma-dialer discover spacebar && touch /build/kdebuildscriptdone7.txt"
