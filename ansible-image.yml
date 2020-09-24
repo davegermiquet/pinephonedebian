@@ -22,6 +22,14 @@
 
     - name: Download CMAKE Modules for KDE3 (needs newer version)
       git:
+        repo: 'https://github.com/qt/qt5.git'
+        dest: '/media/fakeinstallroot/build/qt5/'
+        force: yes
+        version: dev
+
+
+    - name: Download CMAKE Modules for KDE3 (needs newer version)
+      git:
         repo: 'https://anongit.kde.org/extra-cmake-modules.git'
         dest: '/media/fakeinstallroot/build/extra-cmake-modules'
         force: yes
@@ -39,6 +47,10 @@
 
     - name: BUILD SDDM
       command: /build/scripts/compileSddm.sh
+    - name: BUILD QT5 from dev
+      command: /build/scripts/qt5Build.sh
+      args:
+        creates: /build/qt5build.txt
     - name: BUILD KDE 1
       command: /build/scripts/kdebuildscript.sh
       args:
