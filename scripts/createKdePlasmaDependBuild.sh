@@ -17,7 +17,7 @@ libx11-dev  \
 libx11-xcb-dev \
 libxext-dev  \
 libxfixes-dev \
-libxi-dev \ libfontconfig1-dev
+libxi-dev \
 libxrender-dev \
 libxcb1-dev \
 libxcb-glx0-dev \
