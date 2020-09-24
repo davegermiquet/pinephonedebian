@@ -20,7 +20,7 @@
         path: /media/fakeinstallroot/build/
         state: directory
 
-    - name: Download CMAKE Modules for KDE3 (needs newer version)
+    - name: Download QT5 DEV for latest plasma (needs newer version)
       git:
         repo: 'https://github.com/qt/qt5.git'
         dest: '/media/fakeinstallroot/build/qt5/'
@@ -28,7 +28,7 @@
         version: dev
 
 
-    - name: Download CMAKE Modules for KDE3 (needs newer version)
+    - name: Download CMAKE Modules for latest plasma (needs newer version)
       git:
         repo: 'https://anongit.kde.org/extra-cmake-modules.git'
         dest: '/media/fakeinstallroot/build/extra-cmake-modules'
