@@ -39,9 +39,34 @@
 
     - name: BUILD SDDM
       command: /build/scripts/compileSddm.sh
-
-    - name: BUILD KDE
+    - name: BUILD KDE 1
       command: /build/scripts/kdebuildscript.sh
+      args:
+        creates: /build/kdebuildscriptdone.txt
+    - name: BUILD KDE 2
+      command: /build/scripts/kdebuildscript2.sh
+      args:
+        creates: /build/kdebuildscriptdone2.txt
+    - name: BUILD KDE 3
+      command: /build/scripts/kdebuildscript3.sh
+      args:
+        creates: /build/kdebuildscriptdone3.txt
+    - name: BUILD KDE 4
+      command: /build/scripts/kdebuildscript4.sh
+      args:
+        creates: /build/kdebuildscriptdone4.txt
+    - name: BUILD KDE 5
+      command: /build/scripts/kdebuildscript5.sh
+      args:
+        creates: /build/kdebuildscriptdone5.txt
+    - name: BUILD KDE 6
+      command: /build/scripts/kdebuildscript6.sh
+      args:
+        creates: /build/kdebuildscriptdone6.txt
+    - name: BUILD KDE 7
+      command: /build/scripts/kdebuildscript7.sh
+      args:
+        creates: /build/kdebuildscriptdone7.txt
 
     - name: pine64 crust uboot git clone
       git:
@@ -49,7 +74,6 @@
         dest: '/build/crust-meta'
         force: yes
         version: master
-
     - name: Download linux firmware
       git:
         repo: 'https://megous.com/git/linux-firmware'

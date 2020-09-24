@@ -33,4 +33,4 @@ chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;se
 /bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
 rm /media/fakeinstallroot/root/.kdesrc-buildrc
 cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings &&  touch /build/kdebuildscriptdone.txt"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build krunner milou kwin kscreen sddm-kcm breeze discover print-manager plasma-sdk kaccounts-integration && touch /build/kdebuildscriptdone3.txt"
