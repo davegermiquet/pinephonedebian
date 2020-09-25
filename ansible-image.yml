@@ -25,7 +25,7 @@
         repo: 'https://github.com/qt/qt5.git'
         dest: '/media/fakeinstallroot/build/qt5/'
         force: yes
-        version: dev
+        version: v5.15.1
 
 
     - name: Download CMAKE Modules for latest plasma (needs newer version)
