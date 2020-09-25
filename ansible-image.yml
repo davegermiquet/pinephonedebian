@@ -42,6 +42,12 @@
         force: yes
         version: develop
 
+    - name: patch the qt.pro file
+      replace:
+        path: /media/fakeroot/build/qt5/qt.pro
+        regexp: QT_SKIP_MODULES =
+        replace: QT_SKIP_MODULES = gui
+
     - name: Prepare SDDM and Plasma BUILD
       command: /build/scripts/createKdePlasmaDependBuild.sh
 
