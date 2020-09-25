@@ -22,10 +22,10 @@
 
     - name: Download QT5 DEV for latest plasma (needs newer version)
       git:
-        repo: 'https://github.com/qt/qt5.git'
+        repo: 'https://code.qt.io/qt/qt5.git'
         dest: '/media/fakeinstallroot/build/qt5/'
         force: yes
-        version: v5.15.1
+        version: 5.15.1
 
 
     - name: Download CMAKE Modules for latest plasma (needs newer version)
