@@ -44,7 +44,7 @@
 
     - name: patch the qt.pro file
       replace:
-        path: /media/fakeroot/build/qt5/qt.pro
+        path: /media/fakeinstallroot/build/qt5/qt.pro
         regexp: QT_SKIP_MODULES =
         replace: QT_SKIP_MODULES = gui
 
