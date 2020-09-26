@@ -26,6 +26,6 @@ function setup_distcc() {
     export PATH=\"/usr/lib/distcc/:\$PATH\"
   fi
 }" > /media/fakeinstallroot/build/addFunction.tmp
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/qt5/;./configure -confirm-license -prefix /usr -opensource -nomake tests  -no-pch && gmake -j4 && gmake install  &&  touch /build/qt5build.txt"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/qt5/;./configure -skip gui -confirm-license -prefix /usr -opensource -nomake tests  -no-pch && gmake -j4 && gmake install  &&  touch /build/qt5build.txt"
 
 
