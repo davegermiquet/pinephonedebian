@@ -33,4 +33,8 @@ chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;se
 /bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
 rm /media/fakeinstallroot/root/.kdesrc-buildrc
 cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
+/bin/sed 's/\#   qtdir  \~\/kde\/qt5 \# Where to install Qt5 if kdesrc-build supplies it/qtdir \/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc  > /tmp/.kdesrc-buildrc
+rm /media/fakeinstallroot/root/.kdesrc-buildrc
+cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
+grep "^include /build/qt5" /media/fakeinstallroot/root/.kdesrc-buildrc || echo "include /build/kdesrc-build/qt5" >> /media/fakeinstallroot/root/.kdesrc-buildrc
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings &&  touch /build/kdebuildscriptdone.txt"

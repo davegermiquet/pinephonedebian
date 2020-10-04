@@ -42,6 +42,13 @@
         force: yes
         version: develop
 
+     - name: Download KDE3 BUILD PLASMA
+       git:
+         repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
+         dest: '/media/fakeinstallroot/build/kdesrc-build'
+         force: yes
+         version: develop
+
     - name: patch the qt.pro file
       replace:
         path: /media/fakeinstallroot/build/qt5/qt.pro
