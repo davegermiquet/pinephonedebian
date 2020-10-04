@@ -47,7 +47,7 @@
         repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
         dest: '/media/fakeinstallroot/build/kdesrc-build'
         force: yes
-        version: develop
+        version: master
 
     - name: patch the qt.pro file
       replace:
