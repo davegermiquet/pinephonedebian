@@ -80,13 +80,13 @@ chroot /media/root /usr/bin/apt-get install -y --no-install-recommends alsa-ucm-
    gvfs-backends \
    iio-sensor-proxy \
    wayland-protocols  \
-   evince file-roller fwupd geary lollypop nemo nemo-fileroller  qtwayland5   youtube-dl  ffmpeg \
+   evince file-roller fwupd geary lollypop nemo nemo-fileroller  youtube-dl  ffmpeg \
   rygel \
         webext-ublock-origin  dracut  plymouth  plymouth-themes \
       sudo vim  dracut-core modemmanager libwayland-cursor++0 xcursor-themes \
       libwayland-client0 dbus libpam-systemd libwayland-cursor0  libpam-modules libpam-systemd libselinux1 libsystemd0 \
       bison build-essential cmake flex gettext git intltool libio-socket-ssl-perl \
-      libjson-xs-perl liburi-perl  libyaml-libyaml-perl shared-mime-info
+      libjson-xs-perl liburi-perl  libyaml-libyaml-perl shared-mime-info gnome
 
 BOOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p1 | tr '\n' ' ')
 ROOTUID=$(blkid -s UUID -o value /build/recovery-pinephone-loop0p2 | tr '\n' ' ')
@@ -135,15 +135,6 @@ chroot /media/root rm -f /etc/ssh/ssh_host_* \
       /etc/machine-id
 
 mkdir /media/root/etc/sddm.conf.d/
-echo << EOF >> /etc/sddm.conf.d/virtualkbd.conf
-[General]
-InputMethod=qtvirtualkeyboard
-EOF
-
-echo << EOF >> /etc/sddm.conf.d/avatar.conf
-[Theme]
-EnableAvatars=false
-EOF
 
 
 

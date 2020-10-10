@@ -5,88 +5,13 @@
 
   tasks:
 
-    - name: Creates directory for plasma
-      file:
-        path: /media/fakeinstallroot/
-        state: directory
-
-    - name: bootstrap arm using qemu
-      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase unstable /media/fakeinstallroot http://deb.debian.org/debian/
-      args:
-        creates: /media/fakeinstallroot/usr/bin/
-
-    - name: Creates directory
-      file:
-        path: /media/fakeinstallroot/build/
-        state: directory
-
-    - name: Download QT5 DEV for latest plasma (needs newer version)
-      git:
-        repo: 'https://code.qt.io/qt/qt5.git'
-        dest: '/media/fakeinstallroot/build/qt5/'
-        force: yes
-        version: 5.15.1
-
-
-    - name: Download CMAKE Modules for latest plasma (needs newer version)
-      git:
-        repo: 'https://anongit.kde.org/extra-cmake-modules.git'
-        dest: '/media/fakeinstallroot/build/extra-cmake-modules'
-        force: yes
-        version: master
-
-    - name: Download KDE3 BUILD PLASMA
-      git:
-        repo: 'https://github.com/sddm/sddm.git'
-        dest: '/media/fakeinstallroot/build/sddm'
-        force: yes
-        version: develop
-
-    - name: Download KDE3 BUILD PLASMA
-      git:
-        repo: 'https://invent.kde.org/sdk/kdesrc-build.git'
-        dest: '/media/fakeinstallroot/build/kdesrc-build'
-        force: yes
-        version: master
-
-    - name: Prepare SDDM and Plasma BUILD
-      command: /build/scripts/createKdePlasmaDependBuild.sh
-
-    - name: BUILD KDE 1
-      command: /build/scripts/kdebuildscript.sh
-      args:
-        creates: /build/kdebuildscriptdone.txt
-    - name: BUILD KDE 2
-      command: /build/scripts/kdebuildscript2.sh
-      args:
-        creates: /build/kdebuildscriptdone2.txt
-    - name: BUILD KDE 3
-      command: /build/scripts/kdebuildscript3.sh
-      args:
-        creates: /build/kdebuildscriptdone3.txt
-    - name: BUILD KDE 4
-      command: /build/scripts/kdebuildscript4.sh
-      args:
-        creates: /build/kdebuildscriptdone4.txt
-    - name: BUILD KDE 5
-      command: /build/scripts/kdebuildscript5.sh
-      args:
-        creates: /build/kdebuildscriptdone5.txt
-    - name: BUILD KDE 6
-      command: /build/scripts/kdebuildscript6.sh
-      args:
-        creates: /build/kdebuildscriptdone6.txt
-    - name: BUILD KDE 7
-      command: /build/scripts/kdebuildscript7.sh
-      args:
-        creates: /build/kdebuildscriptdone7.txt
-
     - name: pine64 crust uboot git clone
       git:
         repo: 'https://gitlab.com/pine64-org/crust-meta.git'
         dest: '/build/crust-meta'
         force: yes
         version: master
+
     - name: Download linux firmware
       git:
         repo: 'https://megous.com/git/linux-firmware'
@@ -229,11 +154,6 @@
 
     - name: install necessary debian packages for pinephone
       command: /build/scripts/createImageSecond.sh
-
-    - name: Synchronization /usr for KDE install to /debian install
-      synchronize:
-        src: /media/fakeinstallroot/usr/
-        dest: /media/root/usr
 
     - name: install the modules
       make:
