@@ -14,7 +14,7 @@ RUN bash -c 'echo -n "Removing existing distcc symlinks... " && \
 	rm -f /usr/lib/distcc/${ARCH}-gcc ; \
     rm -f /usr/lib/distcc/${ARCH}-g++ ;\
     rm -f /usr/lib/distcc/cc  ; \
-    rm -f /usr/lib/distcc/c++; \
+    rm -f s/usr/lib/distcc/c++; \
 	echo -n "Creating new symlinks for ${ARCH}..." && \
 	ln -s /usr/bin/distcc /usr/lib/distcc/${ARCH}-gcc && \
 	ln -s /usr/bin/distcc /usr/lib/distcc/${ARCH}-g++ &&\

@@ -37,4 +37,4 @@ cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
 rm /media/fakeinstallroot/root/.kdesrc-buildrc
 cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
 grep "^include /build/qt5" /media/fakeinstallroot/root/.kdesrc-buildrc || echo "include /build/qt5" >> /media/fakeinstallroot/root/.kdesrc-buildrc
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings &&  touch /build/kdebuildscriptdone.txt"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings kdbusaddons &&  touch /build/kdebuildscriptdone.txt"
