@@ -5,18 +5,18 @@ IMG_FILE="debian-$device-`date +%Y%m%d`.img"
 DEBOS_CMD=docker
 ARGS="run -d --tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup   --network=debiananddistcc  --privileged=true --name debianinstaller -dit amd64/debian /bin/bash"
 
-cd configFiles
-$DEBOS_CMD network create \
-  --driver=bridge \
-  --subnet=172.28.0.0/16 \
-  --ip-range=172.28.0.0/16 \
-  --gateway=172.28.5.254 \
-  debiananddistcc
-$DEBOS_CMD rm distcc
-$DEBOS_CMD rmi distcc
-$DEBOS_CMD build -t distcc .
-cd ..
-$DEBOS_CMD run -d --network=debiananddistcc -p3636:3636 -p3632:3632 -p3633:3633 -eOPTIONS="--allow 0.0.0.0/0" --name distcc -dit distcc /bin/bash
+  cd configFiles
+  $DEBOS_CMD network create \
+    --driver=bridge \
+    --subnet=172.28.0.0/16 \
+    --ip-range=172.28.0.0/16 \
+    --gateway=172.28.5.254 \
+    debiananddistcc
+  $DEBOS_CMD rm distcc
+  $DEBOS_CMD rmi distcc
+  $DEBOS_CMD build -t distcc .
+  cd ..
+  $DEBOS_CMD run -d --network=debiananddistcc -p3636:3636 -p3632:3632 -p3633:3633 -eOPTIONS="--allow 0.0.0.0/0" --name distcc -dit distcc /bin/bash
 
 # pull the buster image
 
@@ -35,13 +35,12 @@ $DEBOS_CMD $ARGS || docker start debianinstaller
 $DEBOS_CMD exec debianinstaller /usr/bin/apt-get -y update
 $DEBOS_CMD exec debianinstaller  dpkg --add-architecture arm64
 $DEBOS_CMD exec debianinstaller /usr/bin/apt-get -y --no-install-recommends install ansible f2fs-tools debootstrap git \
- parted flex bison python3-distutils  crossbuild-essential-arm64 \
+ parted flex bison python3-distutils \
  swig python3-dev u-boot-tools device-tree-compiler \
 bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
  qemu-system-aarch64 binfmt-support qemu qemu-user-static  python3-pip \
- cpio rsync dpkg-dev fakeroot e2fsprogs mount eject kmod \
- dracut dpkg-cross systemd-container snapd  git bzr dialog build-essential
-$DEBOS_CMD exec debianinstaller apt-get -y install libc6:arm64
+ cpio rsync e2fsprogs mount eject kmod \
+ dracut systemd-container snapd  git bzr dialog
 
 # copy over needed files
 
@@ -49,7 +48,7 @@ $DEBOS_CMD exec debianinstaller mkdir /build
 $DEBOS_CMD cp scripts/ debianinstaller:/build/
 $DEBOS_CMD cp configFiles/ debianinstaller:/build/
 $DEBOS_CMD cp ansible-image.yml debianinstaller:/build/
-$DEBOS_CMD exec debianinstaller wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6_2.31-3_arm64.deb
+
 
 # start running docker commands
 $DEBOS_CMD exec debianinstaller df -h

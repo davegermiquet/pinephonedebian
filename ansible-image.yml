@@ -30,14 +30,14 @@
 
     - name: Download CMAKE Modules for latest plasma (needs newer version)
       git:
-        repo: 'https://anongit.kde.org/extra-cmake-modules.git'
+          repo: 'https://anongit.kde.org/extra-cmake-modules.git'
         dest: '/media/fakeinstallroot/build/extra-cmake-modules'
         force: yes
         version: master
 
     - name: Download KDE3 BUILD PLASMA
       git:
-        repo: 'https://github.com/sddm/sddm.git'
+          repo: 'https://github.com/sddm/sddm.git'
         dest: '/media/fakeinstallroot/build/sddm'
         force: yes
         version: develop
