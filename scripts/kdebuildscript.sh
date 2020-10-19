@@ -28,8 +28,8 @@ function setup_distcc() {
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
 
-  chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extra-cmake-modules;mkdir build && cd build;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr .. && make &&  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build --initial-setup"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extra-cmake-modules;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr && make &&  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "/build/kdesrc-build/kdesrc-build --metadata-only"
 /bin/sed 's/\~\/kde\/usr/\/usr/g' /media/fakeinstallroot/root/.kdesrc-buildrc > /tmp/.kdesrc-buildrc
 rm /media/fakeinstallroot/root/.kdesrc-buildrc
 cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
@@ -37,4 +37,4 @@ cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
 rm /media/fakeinstallroot/root/.kdesrc-buildrc
 cp /tmp/.kdesrc-buildrc /media/fakeinstallroot/root/.kdesrc-buildrc
 grep "^include /build/qt5" /media/fakeinstallroot/root/.kdesrc-buildrc || echo "include /build/qt5" >> /media/fakeinstallroot/root/.kdesrc-buildrc
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/build/kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings kdbusaddons &&  touch /build/kdebuildscriptdone.txt"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;/b uild  /kdesrc-build/kdesrc-build kdesrc-build kdeplasma-addons plasma-workspace plasma-framework plasma-settings kdbusaddons &&  touch /build/kdebuildscriptdone.txt"

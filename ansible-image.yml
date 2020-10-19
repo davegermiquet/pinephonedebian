@@ -37,7 +37,7 @@
 
     - name: Download KDE3 BUILD PLASMA
       git:
-          repo: 'https://github.com/sddm/sddm.git'
+        repo: 'https://github.com/sddm/sddm.git'
         dest: '/media/fakeinstallroot/build/sddm'
         force: yes
         version: develop
