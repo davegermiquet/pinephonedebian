@@ -8,7 +8,7 @@ export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 echo "deb http://deb.debian.org/debian unstable main contrib non-free"  > /media/fakeinstallroot/etc/apt/sources.list
 chroot /media/fakeinstallroot /usr/bin/apt-get -y update
 chroot /media/fakeinstallroot /usr/bin/apt-get -y install ca-certificates
-chroot /media/fakeinstallroot /usr/bin/apt-get -y install build-essential cmake
+chroot /media/fakeinstallroot /usr/bin/apt-get -y install build-essential cmake  libxml-parser-perl libwww-perl perlg
 chroot /media/fakeinstallroot /usr/bin/apt-get -y install flex bison gperf libicu-dev libxslt-dev ruby  libical-dev distcc ccache libxcb-composite0-dev xcb  libxcb-icccm4-dev
 chroot /media/fakeinstallroot /usr/bin/apt-get -y install libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev
 chroot /media/fakeinstallroot /usr/bin/apt-get -y install libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev
