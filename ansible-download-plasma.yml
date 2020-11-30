@@ -5,6 +5,19 @@
 
   tasks:
  
+    - name: Download QT5 DEV for latest plasma (needs newer version)
+      git:
+        repo: 'https://code.qt.io/qt/qt5.git'
+        dest: '/build/extract/qt5/'
+        force: yes
+        version: 5.15.0
+    - name: Download CMAKE Modules for latest plasma (needs newer version)
+      git:
+        repo: 'https://anongit.kde.org/extra-cmake-modules.git'
+        dest: '/build/extract/extra-cmake-modules'
+        force: yes
+        version: master
+
     - name: KDE Plasma - Part 1 - Blue Devil BlueTooth
       get_url:
         url: https://download.kde.org/stable/plasma/5.20.3/bluedevil-5.20.3.tar.xz

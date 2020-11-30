@@ -56,8 +56,9 @@
    
     - name: KDE Plasma - Part 1 -kde-cli-tools
       unarchive:
-        url: https://download.kde.org/stable/plasma/5.20.3/kde-cli-tools-5.20.3.tar.xz
         src: /build/download/kde-cli-tools.tar.xz
+        dest: /build/extract
+   
     - name: KDE Plasma - Part 1 -kdecoration
       unarchive:
         src: /build/download/kdecoration.tar.xz 
