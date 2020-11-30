@@ -9,4 +9,4 @@
     - name: Prepare SDDM and Plasma BUILD
       command: /build/scripts/compileQT5.sh
     - name: Compile Modules
-	      command: /build/scripts/compilePlasma.sh
+	  command: /build/scripts/compilePlasma.sh
