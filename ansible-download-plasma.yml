@@ -11,6 +11,7 @@
         dest: '/build/extract/qt5/'
         force: yes
         version: 5.15.0
+        
     - name: Download CMAKE Modules for latest plasma (needs newer version)
       git:
         repo: 'https://anongit.kde.org/extra-cmake-modules.git'
