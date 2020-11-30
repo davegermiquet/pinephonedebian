@@ -30,4 +30,4 @@ function setup_distcc() {
 
 rsync -avh /build/ /media/fakeinstallroot/
 
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build; ../configure -developer-build -opensource -nomake examples -nomake tests;which gcc;&& make -j3 &&  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build; ../configure -developer-build -opensource -nomake examples -nomake tests;which gcc;make -j3 &&  make install"

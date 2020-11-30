@@ -6,7 +6,7 @@
   tasks:
     - name: Prepare SDDM and Plasma BUILD
       command: /build/scripts/createKdePlasmaDependBuild.sh
-    - name: Prepare SDDM and Plasma BUILD
+    - name: Compile qt5
       command: /build/scripts/compileQT5.sh
     - name: Compile Modules
       command: /build/scripts/compilePlasma.sh
