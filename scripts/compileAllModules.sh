@@ -1,0 +1,1 @@
+for f in * ; do [ -d "$f" ] && cd $f ;mkdir build;cd build ;cmake -DCMAKE_BUILD_TYPE=Release -S ../ -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr;make -j3;make install ; cd/build/extract/;  done
