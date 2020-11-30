@@ -40,21 +40,24 @@ $DEBOS_CMD exec debianinstaller /usr/bin/apt-get -y --no-install-recommends inst
 bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
  qemu-system-aarch64 binfmt-support qemu qemu-user-static  python3-pip \
  cpio rsync e2fsprogs mount eject kmod \
- dracut systemd-container snapd  git bzr dialog
+ dracut systemd-container snapd  git bzr dialog unzip
 
 # copy over needed files
 
 $DEBOS_CMD exec debianinstaller mkdir /build
 $DEBOS_CMD cp scripts/ debianinstaller:/build/
 $DEBOS_CMD cp configFiles/ debianinstaller:/build/
-$DEBOS_CMD cp ansible-image.yml debianinstaller:/build/
-
+$DEBOS_CMD cp ansible-prepare-plasma.yml debianinstaller:/build/
+$DEBOS_CMD cp ansible-download-plasma.yml debianinstaller:/build/
+$DEBOS_CMD cp ansible-extract-plasma.yml debianinstaller:/build/
 
 # start running docker commands
 $DEBOS_CMD exec debianinstaller df -h
 
 # run playbook
-$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-image.yml
+$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-prepare-plasma.yml
+$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-download-plasma.yml
+$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-extract-plasma.yml
 
 # copy over artifacts for downloading
 $DEBOS_CMD exec debianinstaller umount /media/root/boot
