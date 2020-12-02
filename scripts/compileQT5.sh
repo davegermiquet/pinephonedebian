@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 echo "
 function setup_distcc() {
   echo distcc > /etc/distcc/hosts
@@ -28,6 +28,7 @@ function setup_distcc() {
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
 
-rsync -avh /build/ /media/fakeinstallroot/
+mkdir /media/fakeinstallroot/build
+rsync -avh /build/* /media/fakeinstallroot/build/
 
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build; ../configure -developer-build -opensource -nomake examples -nomake tests;which gcc;make -j3 &&  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build; ../configure  -prefix /usr -developer-build -opensource -nomake examples -nomake tests;which gcc;make -j3 &&  make install"
