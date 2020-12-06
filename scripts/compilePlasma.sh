@@ -20,7 +20,9 @@ function setup_distcc() {
     for bin in \${COMPILERS_TO_REPLACE}; do
         ln -s /usr/lib/distcc/distccwrapper /usr/lib/distcc/\${bin}
     done
-
+	export CCACHE_PREFIX="distcc"
+	export CC="ccache gcc"
+	export CXX="ccache g++"
 	export DISTCC_HOSTS="192.168.1.183/4 192.168.1.184/4"
     export CCACHE_DIR=/root/.ccache
     export PATH=\"/usr/lib/distcc/:\$PATH\"
@@ -29,4 +31,4 @@ function setup_distcc() {
 
 
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extract/extra-cmake-modules;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr && make -j6 &&  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/kde;/build/scripts/compileAllModules.sh"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/kde	;/build/scripts/compileAllModules.sh"
