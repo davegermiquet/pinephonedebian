@@ -21,7 +21,7 @@ function setup_distcc() {
         ln -s /usr/lib/distcc/distccwrapper /usr/lib/distcc/\${bin}
     done
 
-	export DISTCC_HOSTS=\"192.168.1.183/4 192.168.1.184/4\"
+	export DISTCC_HOSTS="192.168.1.183/4 192.168.1.184/4"
     export CCACHE_DIR=/root/.ccache
     export PATH=\"/usr/lib/distcc/:\$PATH\"
   fi

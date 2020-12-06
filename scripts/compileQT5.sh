@@ -32,4 +32,3 @@ mkdir /media/fakeinstallroot/build
 rsync -avh /build/* /media/fakeinstallroot/build/
 
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build;export QT5PREFIX=/usr; ../configure -confirm-license  -prefix /usr -opensource -nomake examples -nomake tests;which gcc;make -j6 ;  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5kit;mkdir qtwebkit-build;cd qtwebkit-build;export QT5PREFIX=/usr; qmake ../  && make -j6 &&  make install"
