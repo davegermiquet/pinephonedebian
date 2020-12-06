@@ -12,13 +12,6 @@
         force: yes
         version: 5.15.0
         
-    - name: Download QT5 DEV for latest plasma (needs newer version)
-      git:
-        repo: 'https://code.qt.io/qt/qtwebkit.git'
-        dest: '/build/extract/qt5kit/'
-        force: yes
-        version: 5.15.0
-        
     - name: Download CMAKE Modules for latest plasma (needs newer version)
       git:
         repo: 'https://anongit.kde.org/extra-cmake-modules.git'
