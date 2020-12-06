@@ -29,4 +29,4 @@ function setup_distcc() {
 
 
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;which gcc;cd /build/extract/extra-cmake-modules;cmake -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr && make -j6 &&  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract;/build/scripts/compileAllModules.sh"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/kde;/build/scripts/compileAllModules.sh"
