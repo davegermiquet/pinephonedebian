@@ -6,33 +6,28 @@
   tasks:
     - name: Creates directory
       file:
-        path: /build/extract
+        path: /build/extract/kde
         state: directory
 
     - name: KDE Plasma - Part 1 - Blue Devil BlueTooth
       unarchive:
         src: /build/download/bluedevil.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
   
     - name: KDE Plasma - Part 1 - Breeze 
       unarchive:
         src: /build/download/breeze.tar.xz 
-        dest: /build/extract
-        
-    - name: KDE Plasma - Part 1 - Breeze GRUB
-      unarchive:
-        src: /build/download/breeze.tar.xz
-        dest: /build/extract	
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - Breeze GTK
       unarchive:
         src: /build/download/breeze-gtk.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - Breeze Plymouth
       unarchive:
         src: /build/download/breeze-plymouth.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - Discover
       unarchive:
@@ -42,192 +37,193 @@
     - name: KDE Plasma - Part 1 - KActivity
       unarchive:
         src: /build/download/kactivitymanager.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - Dr Konqi
       unarchive:
         src: /build/download/drkonqi.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - KDE Cli Tools
       unarchive:
         src: /build/download/kde-gtk-config.tar.xz 
-        dest: /build/extract
+        dest: /build/extract/kde
    
     - name: KDE Plasma - Part 1 -kde-cli-tools
       unarchive:
         src: /build/download/kde-cli-tools.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
    
     - name: KDE Plasma - Part 1 -kdecoration
       unarchive:
         src: /build/download/kdecoration.tar.xz 
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 - kdeplasma-addons
       unarchive:
         src: /build/download/kdeplasma-addons.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 - kgamma5
       unarchive:
         src: /build/download/kgamma5.tar.xz 
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 - khotkeys
       unarchive:
        src: /build/download/khotkeys.tar.xz 
-       dest: /build/extract
+       dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -kinfocenter-
       unarchive:
        src: /build/download/kinfocenter.tar.xz 
-       dest: /build/extract
+       dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -kmenuedit-
       unarchive:
         src: /build/download/kmenuedit.tar.xz       
-        dest: /build/extract 
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -kscreen-
       unarchive:
         src: /build/download/kscreen.tar.xz                 
-        dest: /build/extract 
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -kscreenlocker
       unarchive:
         src: /build/download/kscreenlocker.tar.xz        
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -ksshaskpass-
       unarchive:
         src: /build/download/ksshaskpass.tar.xz   
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -kscreenlocker
       unarchive:
         src: /build/download/kwallet-pam.tar.xz   
-        dest: /build/extract
+        dest: /build/extract/kde
     
     - name: KDE Plasma - Part 1 -kscreenlocker
       unarchive:
         src: /build/download/kwayland-integration.tar.xz   
-        dest: /build/extract
+        dest: /build/extract/kde
    
     - name: KDE Plasma - Part 1 -kwayland-server
       unarchive:
         src: /build/download/kwayland-server.tar.xz   
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -kwin
       unarchive:
         src: /build/download/kwin.tar.xz   
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -kwrite
       unarchive:
         src: /build/download/kwrite.tar.xz  
-        dest: /build/extract   
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 - libkscreen
       unarchive:
         src: /build/download/libkscreen.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -libksysguard-
       unarchive:
         src: /build/download/libksysguard.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -milou
       unarchive:
         src: /build/download/milou.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -oxygen
       unarchive:
         src: /build/download/oxygen.tar.xz    
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - plasma-browser-integration
       unarchive:
         src: /build/download/plasma-browser-integration.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -plasma-desktop
       unarchive:
         src: /build/download/plasma-desktop.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - plasma-disks	
       unarchive:
         src: /build/download/plasma-disks.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -plasma-integration	
       unarchive:
         src: /build/download/plasma-integration.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - plasma-nano
       unarchive:
         src: /build/download/plasma-nano.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -plasma-nm
       unarchive:
         src: /build/download/plasma-nm.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
 
     - name: KDE Plasma - Part 1 -plasma-pa
       unarchive:
         src: /build/download/plasma-pa.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
 
     - name: KDE Plasma - Part 1 - plasma-phone-components
       unarchive:
         src: /build/download/plasma-phone-components.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
+        
     - name: KDE Plasma - Part 1 -plasma-sdk
       unarchive:
         src: /build/download/plasma-sdk.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
 
     - name: KDE Plasma - Part 1 plasma-thunderbolt
       unarchive:
         src: /build/download/plasma-thunderbolt.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
 
     - name: KDE Plasma - Part 1 -plasma-vault
       unarchive:
         src: /build/download/plasma-vault.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -plasma-workspac
       unarchive:
         src: /build/download/plasma-workspace.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde	
     - name: KDE Plasma - Part 1 -plasma-workspace-wallpapers
       unarchive:
         src: /build/download/plasma-workspace-wallpapers.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - 	plymouth-kcm
       unarchive:
         src: /build/download/plymouth-kcm.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -polkit-kde-agent
       unarchive:
         src: /build/download/plasma-nm.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
     - name: KDE Plasma - Part 1 -powerdevil
       unarchive:
         src: /build/download/powerdevil.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -sddm-kc
       unarchive:
         src: /build/download/sddm-kcm.tar.xz  
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 -systemsettings
       unarchive:
         src: /build/download/systemsettings.tar.xz      
-        dest: /build/extract
+        dest: /build/extract/kde
         
     - name: KDE Plasma - Part 1 - xdg-desktop-portal-kde
       unarchive:
         src: /build/download/xdg-desktop-portal-kde.tar.xz
-        dest: /build/extract
+        dest: /build/extract/kde

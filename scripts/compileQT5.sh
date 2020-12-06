@@ -21,7 +21,7 @@ function setup_distcc() {
         ln -s /usr/lib/distcc/distccwrapper /usr/lib/distcc/\${bin}
     done
 
-
+	export DISTCC_HOSTS="192.168.1.183/4 192.168.1.184/4"
     export CCACHE_DIR=/root/.ccache
     export PATH=\"/usr/lib/distcc/:\$PATH\"
   fi
@@ -31,4 +31,5 @@ function setup_distcc() {
 mkdir /media/fakeinstallroot/build
 rsync -avh /build/* /media/fakeinstallroot/build/
 
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build; ../configure  -prefix /usr -developer-build -opensource -nomake examples -nomake tests;which gcc;make -j3 &&  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build;export QT5PREFIX=/usr; ../configure -confirm-license  -prefix /usr -opensource -nomake examples -nomake tests;which gcc;make -j6 ;  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qtwebkit-build;cd qtwebkit-build;export QT5PREFIX=/usr; qmake ../  && make -j3 &&  make install"
