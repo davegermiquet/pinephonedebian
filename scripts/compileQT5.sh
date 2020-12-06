@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "
 function setup_distcc() {
- echo "192.168.1.183/4 192.168.1.184/4" > /etc/distcc/hosts
+ echo \"192.168.1.183/4 192.168.1.184/4 \" > /etc/distcc/hosts
   if [ -z \$(find . -maxdepth 1 -name \"configure.ac\") ]; then
     export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
     dpkg-reconfigure distcc
@@ -21,7 +21,7 @@ function setup_distcc() {
         ln -s /usr/lib/distcc/distccwrapper /usr/lib/distcc/\${bin}
     done
 
-	export DISTCC_HOSTS="192.168.1.183/3 192.168.1.184/3"
+	export DISTCC_HOSTS=\"192.168.1.183/3 192.168.1.184/3\"
     export CCACHE_DIR=/root/.ccache
     export PATH=\"/usr/lib/distcc/:\$PATH\"
   fi
@@ -32,4 +32,4 @@ mkdir /media/fakeinstallroot/build
 rsync -avh /build/* /media/fakeinstallroot/build/
 
 chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qt5-build;cd qt5-build;export QT5PREFIX=/usr; ../configure -confirm-license  -prefix /usr -opensource -nomake examples -nomake tests;which gcc;make -j6 ;  make install"
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5;mkdir qtwebkit-build;cd qtwebkit-build;export QT5PREFIX=/usr; qmake ../  && make -j6 &&  make install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/qt5kit;mkdir qtwebkit-build;cd qtwebkit-build;export QT5PREFIX=/usr; qmake ../  && make -j6 &&  make install"

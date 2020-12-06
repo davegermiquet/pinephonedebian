@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "
 function setup_distcc() {
-  echo "192.168.1.183/4 192.168.1.184/4" > /etc/distcc/hosts
+  echo \"192.168.1.183/4 192.168.1.184/4\" > /etc/distcc/hosts
   if [ -z \$(find . -maxdepth 1 -name \"configure.ac\") ]; then
     export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
     dpkg-reconfigure distcc
@@ -21,7 +21,7 @@ function setup_distcc() {
         ln -s /usr/lib/distcc/distccwrapper /usr/lib/distcc/\${bin}
     done
 
-	export DISTCC_HOSTS="192.168.1.183/4 192.168.1.184/4"
+	export DISTCC_HOSTS=\"192.168.1.183/4 192.168.1.184/4\"
     export CCACHE_DIR=/root/.ccache
     export PATH=\"/usr/lib/distcc/:\$PATH\"
   fi
