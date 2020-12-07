@@ -26,5 +26,4 @@ function setup_distcc() {
   fi
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
-
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/kde;/build/scripts/compileAllModules.sh"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/wayfire/;meson build;ninja -C build;ninja -C build install"

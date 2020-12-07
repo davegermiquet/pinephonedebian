@@ -1,1 +1,3 @@
-for f in * ; do [ -d "$f" ] && cd $f ;mkdir build;cd build ;export KF5_PREFIX=/usr;cmake -DCMAKE_BUILD_TYPE=Release -S ../ -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr;make -j6;make install ; cd /build/extract/;  done
+#!/bin/bash
+
+for f in * ; do [ -d "$f" ] && cd $f ;source /build/addFunction.tmp;setup_distcc;mkdir build;cd build ;export KF5_PREFIX=/usr;cmake -DCMAKE_BUILD_TYPE=Release -S ../ -DCMAKE_PREFIX_PATH=/usr -DCMAKE_INSTALL_PREFIX=/usr -D CMAKE_C_COMPILER=/usr/lib/distcc/gcc -D CMAKE_CXX_COMPILER=/usr/lib/distcc/g++ | tee /tmp/log.txt ;make -j6 | tee /tmp/log.txt  2>&1 ;make install ; cd /build/extract/kde;done

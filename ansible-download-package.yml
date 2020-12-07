@@ -1,0 +1,255 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+
+  tasks:
+ 
+    - name: Download QT5 DEV for latest plasma (needs newer version)
+      git:
+        repo: 'https://code.qt.io/qt/qt5.git'
+        dest: '/build/extract/qt5/'
+        force: yes
+        version: 5.15.0
+        
+    - name: Download CMAKE Modules for latest plasma (needs newer version)
+      git:
+        repo: 'https://anongit.kde.org/extra-cmake-modules.git'
+        dest: '/build/extract/extra-cmake-modules'
+        force: yes
+        version: master
+
+	- name: SWAY
+      git:
+        repo: 'https://github.com/swaywm/sway.git'
+        dest: '/build/extract/sway/'
+        force: yes
+        version: master
+       
+	- name: WayFire
+      git:
+        repo: 'https://github.com/WayfireWM/wayfire.git'
+        dest: '/build/extract/wayfire/'
+        force: yes
+        version: master
+
+	- name: WayFire Config
+      git:
+        repo: 'https://github.com/WayfireWM/wf-config.git'
+        dest: '/build/extract/wayfire/'
+        force: yes
+        version: master
+        
+    - name: KDE Plasma - Part 1 - Blue Devil BlueTooth
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/bluedevil-5.20.3.tar.xz
+        dest: /build/download/bluedevil.tar.xz
+  
+    - name: KDE Plasma - Part 1 - Breeze 
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/breeze-5.20.3.tar.xz
+        dest: /build/download/breeze.tar.xz
+        
+    - name: KDE Plasma - Part 1 - Breeze GRUB
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/breeze-grub-5.20.3.tar.xz
+        dest: /build/download/breeze.tar.xz
+        
+        
+    - name: KDE Plasma - Part 1 - Breeze GTK
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/breeze-gtk-5.20.3.tar.xz
+        dest: /build/download/breeze-gtk.tar.xz
+        
+    - name: KDE Plasma - Part 1 - Breeze Plymouth
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/breeze-plymouth-5.20.3.tar.xz
+        dest: /build/download/breeze-plymouth.tar.xz
+        
+    - name: KDE Plasma - Part 1 - Discover
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/discover-5.20.3.tar.xz
+        dest: /build/download/breeze-discover.tar.xz
+        
+    - name: KDE Plasma - Part 1 - KActivity
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kactivitymanagerd-5.20.3.tar.xz
+        dest: /build/download/kactivitymanager.tar.xz
+        
+    - name: KDE Plasma - Part 1 - Dr Konqi
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/drkonqi-5.20.3.tar.xz
+        dest: /build/download/drkonqi.tar.xz 
+        
+    - name: KDE Plasma - Part 1 - KDE Cli Tools
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kde-gtk-config-5.20.3.tar.xz
+        dest: /build/download/kde-gtk-config.tar.xz 
+   
+    - name: KDE Plasma - Part 1 -kde-cli-tools
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kde-cli-tools-5.20.3.tar.xz
+        dest: /build/download/kde-cli-tools.tar.xz 
+        
+    - name: KDE Plasma - Part 1 -kdecoration
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kdecoration-5.20.3.tar.xz
+        dest: /build/download/kdecoration.tar.xz 
+
+    - name: KDE Plasma - Part 1 - kdeplasma-addons
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kdeplasma-addons-5.20.3.tar.xz
+        dest: /build/download/kdeplasma-addons.tar.xz 
+        
+    - name: KDE Plasma - Part 1 - kgamma5
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/kgamma5-5.20.3.tar.xz
+        dest: /build/download/kgamma5.tar.xz 
+
+    - name: KDE Plasma - Part 1 - khotkeys
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/khotkeys-5.20.3.tar.xz
+        dest: /build/download/khotkeys.tar.xz 
+        
+    - name: KDE Plasma - Part 1 -kinfocenter-
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kinfocenter-5.20.3.tar.xz
+        dest: /build/download/kinfocenter.tar.xz 
+        
+    - name: KDE Plasma - Part 1 -kmenuedit-
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kmenuedit-5.20.3.tar.xz
+        dest: /build/download/kmenuedit.tar.xz     
+        
+    - name: KDE Plasma - Part 1 -kscreen-
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kscreen-5.20.3.tar.xz
+        dest: /build/download/kscreen.tar.xz                 
+    - name: KDE Plasma - Part 1 -kscreenlocker
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/kscreenlocker-5.20.3.tar.xz
+        dest: /build/download/kscreenlocker.tar.xz        
+    - name: KDE Plasma - Part 1 -ksshaskpass-
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/ksshaskpass-5.20.3.tar.xz
+        dest: /build/download/ksshaskpass.tar.xz   
+    - name: KDE Plasma - Part 1 -kscreenlocker 
+      get_url:
+        url: https://download.kde.org/stable/plasma/5.20.3/kwallet-pam-5.20.3.tar.xz
+        dest: /build/download/kwallet-pam.tar.xz   
+    - name: KDE Plasma - Part 1 -kscreenlocker
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/kwayland-integration-5.20.3.tar.xz
+        dest: /build/download/kwayland-integration.tar.xz   
+    - name: KDE Plasma - Part 1 -kwayland-server
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/kwayland-server-5.20.3.tar.xz
+        dest: /build/download/kwayland-server.tar.xz   
+    - name: KDE Plasma - Part 1 -kwin
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/kwin-5.20.3.tar.xz
+        dest: /build/download/kwin.tar.xz   
+    - name: KDE Plasma - Part 1 -kwrite
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/kwrited-5.20.3.tar.xz
+        dest: /build/download/kwrite.tar.xz 
+    - name: KDE Plasma - Part 1 - libkscreen
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/libkscreen-5.20.3.tar.xz
+        dest: /build/download/libkscreen.tar.xz  
+    - name: KDE Plasma - Part 1 -libksysguard-
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/libksysguard-5.20.3.tar.xz
+        dest: /build/download/libksysguard.tar.xz  
+    - name: KDE Plasma - Part 1 -milou
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/milou-5.20.3.tar.xz
+        dest: /build/download/milou.tar.xz  
+    - name: KDE Plasma - Part 1 -oxygen
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/oxygen-5.20.3.tar.xz
+        dest: /build/download/oxygen.tar.xz  
+
+    - name: KDE Plasma - Part 1 - plasma-browser-integration
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-browser-integration-5.20.3.tar.xz
+        dest: /build/download/plasma-browser-integration.tar.xz  
+
+    - name: KDE Plasma - Part 1 -plasma-desktop
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-desktop-5.20.3.tar.xz
+        dest: /build/download/plasma-desktop.tar.xz  
+
+    - name: KDE Plasma - Part 1 - plasma-disks	
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-disks-5.20.3.tar.xz
+        dest: /build/download/plasma-disks.tar.xz  
+
+    - name: KDE Plasma - Part 1 -plasma-integration	
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/plasma-integration-5.20.3.tar.xz
+        dest: /build/download/plasma-integration.tar.xz  
+    - name: KDE Plasma - Part 1 - plasma-nano
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-nano-5.20.3.tar.xz
+        dest: /build/download/plasma-nano.tar.xz  
+    - name: KDE Plasma - Part 1 -plasma-nm
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-nm-5.20.3.tar.xz
+        dest: /build/download/plasma-nm.tar.xz  
+    - name: KDE Plasma - Part 1 -plasma-p
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-pa-5.20.3.tar.xz
+        dest: /build/download/plasma-pa.tar.xz  
+    - name: KDE Plasma - Part 1 - plasma-phone-components
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-phone-components-5.20.3.tar.xz
+        dest: /build/download/plasma-phone-components.tar.xz  
+    - name: KDE Plasma - Part 1 -plasma-sdk
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-sdk-5.20.3.tar.xz 
+        dest: /build/download/plasma-sdk.tar.xz  
+    - name: KDE Plasma - Part 1 plasma-thunderbolt
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/plasma-thunderbolt-5.20.3.tar.xz
+        dest: /build/download/plasma-thunderbolt.tar.xz  
+    - name: KDE Plasma - Part 1 -plasma-vault
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/plasma-vault-5.20.3.tar.xz
+        dest: /build/download/plasma-vault.tar.xz  
+    - name: KDE Plasma - Part 1 -plasma-workspac
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-workspace-5.20.3.tar.xz
+        dest: /build/download/plasma-workspace.tar.xz  
+
+
+    - name: KDE Plasma - Part 1 -plasma-workspace-wallpapers
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plasma-workspace-wallpapers-5.20.3.tar.xz
+        dest: /build/download/plasma-workspace-wallpapers.tar.xz  
+
+    - name: KDE Plasma - Part 1 - 	plymouth-kcm
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/plymouth-kcm-5.20.3.tar.xz
+        dest: /build/download/plymouth-kcm.tar.xz  
+    - name: KDE Plasma - Part 1 -polkit-kde-agent-
+      get_url:
+        url:   https://download.kde.org/stable/plasma/5.20.3/polkit-kde-agent-1-5.20.3.tar.xz
+        dest: /build/download/plasma-nm.tar.xz  
+    - name: KDE Plasma - Part 1 -powerdevil
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/powerdevil-5.20.3.tar.xz
+        dest: /build/download/powerdevil.tar.xz  
+   
+    - name: KDE Plasma - Part 1 -sddm-kcm
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/sddm-kcm-5.20.3.tar.xz
+        dest: /build/download/sddm-kcm.tar.xz  
+    - name: KDE Plasma - Part 1 -systemsettings
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/systemsettings-5.20.3.tar.xz
+        dest: /build/download/systemsettings.tar.xz      
+    - name: KDE Plasma - Part 1 - xdg-desktop-portal-kde
+      get_url:
+        url:  https://download.kde.org/stable/plasma/5.20.3/xdg-desktop-portal-kde-5.20.3.tar.xz
+        dest: /build/download/xdg-desktop-portal-kde.tar.xz

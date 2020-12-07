@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+
+  tasks:
+
+    - name: Creates directory for plasma
+      file:
+        path: /media/fakeinstallroot/
+        state: directory
+
+    - name: bootstrap arm using qemu
+      shell:  qemu-debootstrap --arch arm64 --components=main --include=apt,bash,dpkg,gnupg2 --variant=minbase unstable /media/fakeinstallroot http://deb.debian.org/debian/
+      args:
+        creates: /media/fakeinstallroot/usr/bin/
+
+    - name: Creates directory
+      file:
+        path: /media/fakeinstallroot/build/
+        state: directory
+
+    - name: Creates directory
+      file:
+        path: /build/download
+        state: directory

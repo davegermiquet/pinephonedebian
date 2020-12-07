@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+
+  tasks:
+    - name: Install Sway And WayFire
+      command: /build/scripts/installSwayAndWayFire.sh
