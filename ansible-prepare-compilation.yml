@@ -22,5 +22,20 @@
 
     - name: Creates directory
       file:
-        path: /build/download
+        path: /build/download/
+        state: directory
+        
+    - name: Creates directory
+      file:
+        path: /build/extract/
+        state: directory
+        
+    - name: Creates directory
+      file:
+        path: /build/download/kde/
+        state: directory
+
+    - name: Creates directory
+      file:
+        path: /build/extract/kde
         state: directory

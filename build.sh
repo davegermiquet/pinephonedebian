@@ -41,6 +41,7 @@ bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
  qemu-system-aarch64 binfmt-support qemu qemu-user-static  python3-pip \
  cpio rsync e2fsprogs mount eject kmod \
  dracut systemd-container snapd  git bzr dialog unzip \
+ distcc crossbuild-essential-arm64 build-essential libc6-dev-arm64-cross gcc g++ git gcc-*-aarch64-linux-gnu g++-*-aarch64-linux-gnu libncurses5-dev ccache procps distcc-pump cmake cmake-data htop \
   xz-utils
 
 # copy over needed files
@@ -48,10 +49,11 @@ bison flex libssl-dev libncurses-dev bc qemu-utils qemu-efi-aarch64\
 $DEBOS_CMD exec debianinstaller mkdir /build
 $DEBOS_CMD cp scripts/ debianinstaller:/build/
 $DEBOS_CMD cp configFiles/ debianinstaller:/build/
-$DEBOS_CMD cp ansible-prepare-plasma.yml debianinstaller:/build/
+$DEBOS_CMD cp ansible-prepare-compilation.yml debianinstaller:/build/
 $DEBOS_CMD cp ansible-download-package.yml debianinstaller:/build/
 $DEBOS_CMD cp ansible-extract-plasma.yml debianinstaller:/build/
 $DEBOS_CMD cp ansible-compile-wayfire.yml debianinstaller:/build/
+$DEBOS_CMD cp ansible-create-linux-base.yml debianinstaller:/build/
 $DEBOS_CMD cp ansible-install-wayfire.yml debianinstaller:/build/
 
 # start running docker commands
@@ -61,6 +63,7 @@ $DEBOS_CMD exec debianinstaller df -h
 $DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-prepare-compilation.yml
 $DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-download-package.yml
 $DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-compile-wayfire.yml
+$DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-create-linux-base.yml
 $DEBOS_CMD exec debianinstaller /usr/bin/ansible-playbook -vvvvv /build/ansible-install-wayfire.yml
 
 # copy over artifacts for downloading

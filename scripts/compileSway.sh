@@ -13,7 +13,10 @@ function setup_distcc() {
 
       # Create distcc wrapper
     echo '#!/usr/bin/env bash' > /usr/lib/distcc/distccwrapper
-    echo 'CCACHE_PREFIX=distcc /usr/bin/aarch64-linux-gnu-g\"\${0:\$[-2]}\" \"\$@\"' >> /usr/lib/distcc/distccwrapper
+    echo export CCACHE_PREFIX="distcc /usr/bin/aarch64-linux-gnu-g${0:\$[-2]}" >> /usr/lib/distcc/distccwrapper
+    echo /usr/bin/ccache "\"\$@\""
+    
+    
     chmod +x /usr/lib/distcc/distccwrapper
 
     # Create distcc wrapper
@@ -26,4 +29,5 @@ function setup_distcc() {
   fi
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/sway/;meson build;ninja -C build;ninja -C build install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/wlroots;export CC=/usr/lib/distcc/gcc;export CXX=/usr/lib/distcc/g++; meson build;ninja -C build;ninja -C build install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/sway;export CC=/usr/lib/distcc/gcc;export CXX=/usr/lib/distcc/g++; meson build;ninja -C build;ninja -C build install"

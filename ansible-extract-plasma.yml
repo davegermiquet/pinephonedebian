@@ -8,7 +8,12 @@
       file:
         path: /build/extract/kde
         state: directory
-
+    
+    - name: Extract kernel
+      unarchive:
+        src: /build/download/linux-megi-kernel-5.8.tar.gz
+        dest: /build/extract
+        
     - name: KDE Plasma - Part 1 - Blue Devil BlueTooth
       unarchive:
         src: /build/download/bluedevil.tar.xz

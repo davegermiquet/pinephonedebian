@@ -4,5 +4,5 @@
     ansible_connection: local
 
   tasks:
-    - name: Sway
-      command: /build/scripts/installWayFireSway.sh
+    - name: WayFire and Sway
+      command: /build/scripts/installSwayAndWayFire.sh

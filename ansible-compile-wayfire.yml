@@ -6,5 +6,7 @@
   tasks:
     - name: Prepare SDDM and Plasma BUILD
       command: /build/scripts/createKdePlasmaDependBuild.sh
-    - name: Install Sway And WayFire
-      command: /build/scripts/installSwayAndWayFire.sh
+    - name:  Comple WayFire
+      command: /build/scripts/compileSway.sh
+    - name: Compile wayfire
+      command: /build/scripts/compileWayFire.sh

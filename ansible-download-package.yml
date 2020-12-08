@@ -4,7 +4,33 @@
     ansible_connection: local
 
   tasks:
- 
+  
+    - name: pine64 crust uboot git clone
+      git:
+        repo: 'https://gitlab.com/pine64-org/crust-meta.git'
+        dest: '/build/extract/crust-meta'
+        force: yes
+        version: master
+  
+    - name: pine64 crust uboot git clone
+      git:
+        repo: 'https://github.com/swaywm/wlroots.git'
+        dest: '/build/extract/wlroots'
+        force: yes
+        version: master
+
+    - name: get megi kernel
+      get_url:
+        url: https://gitlab.com/pine64-org/linux/-/archive/megi-kernel-5.8/linux-megi-kernel-5.8.tar.gz
+        dest: /build/download/linux-megi-kernel-5.8.tar.gz
+        
+    - name: Download linux firmware
+      git:
+        repo: 'https://megous.com/git/linux-firmware'
+        dest: '/build/extract/firmware'
+        force: yes 
+        version: master
+
     - name: Download QT5 DEV for latest plasma (needs newer version)
       git:
         repo: 'https://code.qt.io/qt/qt5.git'
@@ -18,25 +44,24 @@
         dest: '/build/extract/extra-cmake-modules'
         force: yes
         version: master
-
-	- name: SWAY
+    - name: SWAY
       git:
         repo: 'https://github.com/swaywm/sway.git'
         dest: '/build/extract/sway/'
         force: yes
         version: master
        
-	- name: WayFire
+    - name: WayFire
       git:
         repo: 'https://github.com/WayfireWM/wayfire.git'
         dest: '/build/extract/wayfire/'
         force: yes
         version: master
-
-	- name: WayFire Config
+        
+    - name: WayFire Config
       git:
         repo: 'https://github.com/WayfireWM/wf-config.git'
-        dest: '/build/extract/wayfire/'
+        dest: '/build/extract/way-config'
         force: yes
         version: master
         

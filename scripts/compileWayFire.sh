@@ -26,4 +26,4 @@ function setup_distcc() {
   fi
 }" > /media/fakeinstallroot/build/addFunction.tmp
 
-chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/wayfire/;meson build;ninja -C build;ninja -C build install"
+chroot /media/fakeinstallroot /usr/bin/bash -c "source /build/addFunction.tmp;setup_distcc;cd /build/extract/wayfire;export CC=/usr/lib/distcc/gcc;export CXX=/usr/lib/distcc/g++; meson build;ninja -C build;ninja -C build install"

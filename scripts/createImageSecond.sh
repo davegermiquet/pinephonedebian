@@ -14,6 +14,7 @@ unset http_proxy
 
 # Allow non-free components
 echo "deb http://deb.debian.org/debian unstable main contrib non-free"  > /media/root/etc/apt/sources.list
+
 chroot /media/root /usr/bin/apt-get -y update
 chroot /media/root /usr/bin/apt-get -y install ca-certificates
 
@@ -149,8 +150,8 @@ EOF
 
 # Disable getty on tty1, as we won't connect in console mode anyway
 chroot /media/root systemctl disable getty@.service
-chroot /media/root systemctl disable gdm3
 chroot /media/root systemctl enable sddm
+
 # FIXME: these are automatically installed on first boot, and block
 # the system startup for over 1 minute! Find out why this happens and
 # avoid this nasty hack
