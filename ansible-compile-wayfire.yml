@@ -4,5 +4,7 @@
     ansible_connection: local
 
   tasks:
+    - name: Prepare SDDM and Plasma BUILD
+      command: /build/scripts/createKdePlasmaDependBuild.sh
     - name: Install Sway And WayFire
       command: /build/scripts/installSwayAndWayFire.sh
